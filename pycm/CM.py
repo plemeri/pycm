@@ -4,7 +4,7 @@ from .Quantities import Quantities as Qty
 import numpy as np
 
 class CM():
-    def __init__(self, ip, port, log_level=logging.WARN):
+    def __init__(self, ip, port, key="", log_level=logging.WARN):
         self.logger = logging.getLogger("pycm")
         self.logger.setLevel(log_level)
 
@@ -12,28 +12,19 @@ class CM():
         self.port = port
 
         self.socket = None
-        self.quantity = Qty()
+        self.quantity = Qty(key)
         self.connect()
         self.init_subscribe()
 
         print("pycm init completed")
 
     def connect(self):
-        # Open the TCP / IP port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        # Connect to the CM TCP / IP port 16660 on localhost
-
         self.socket.connect((self.ip, self.port))
         print("TCP socket connected")
 
     def init_subscribe(self):
-        # if quantity.command == True:
-            # print("Subscribe for command " + quantity.name + ": OK")
-            # return
-
-        # Create message to subscribe to quantities with all quantities
-        # previous subscribed
         msg = ""
         for msg_ in self.quantity.msg_list:
             msg += msg_ + " "
