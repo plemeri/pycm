@@ -49,10 +49,13 @@ class CM():
             if (len(rx_list) != 2):
                 self.logger.error("Wrong read")
                 return
-            try:
-                self.quantity.get(msg).data = float(rx_list[0][1:])
-            except:
-                self.logger.info('cannot read')
+            else:
+                rx = rx_list[0]
+            
+            if rx[0] == 'O':
+                self.quantity.get(msg).data = float(rx[1:])
+            elif rx[0] == 'E':
+                self.logger.info(rx[1:])
                 
 
     def DVA_write(self, quantity, value, duration=-1, mode="Abs"):
@@ -68,14 +71,14 @@ class CM():
         mode : string
             One of Abs, Off, Fac, AbsRamp, ...; default Abs(olute Value)
         """
-
-        msg = "DVAWrite " + quantity.name + " " + \
+        assert mode in ["Abs", "Off", "Fac", "FacOff", "AbsRamp", "OffRamp", "FacRamp", "FacOffRamp"]
+        msg = "DVAWrite " + quantity + " " + \
             str(value)+" "+str(duration)+" "+mode+"\r"
         self.socket.send(msg.encode())
         rsp = self.socket.recv(200)
         rsp = rsp.decode().split("\r\n\r\n")
-        print("Write quantity " +
-                         quantity.name + ": " + str(rsp))
+        self.logger.info("Write quantity " +
+                         quantity + ": " + str(rsp))
 
     def DVA_release(self):
         """ Call this method when you are done using DVA """

@@ -1,14 +1,19 @@
 from pycm import CM
 from pycm.config import *
-import time
-import socket
+import os
 
-cm = CM(IP_ADDRESS, PORT)
+cm = CM(IP_ADDRESS, PORT, key='Sensor.Line.Front.RLines')
 
 cm.read()
 cm.read()
+pub = ""
+acc = 0
+steer = 0
 
-
-for i in range(100):
+while True:
     cm.read()
+    # os.system("clear")
     print(cm.quantity)
+
+cm.DVA_release()
+
