@@ -78,7 +78,7 @@ class CM():
                 str_rx = self.socket.recv(1000).decode()
             except:
                 readable = False
-                self.init_subscribe = False
+                self.is_connected = False
                 break
             rx_list = str_rx.split("\r\n\r\n")
 
