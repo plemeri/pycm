@@ -1,7 +1,8 @@
 IP_ADDRESS = 'localhost' 
 PORT = 16600
 
-init_qdict = {
+def init_qdict():
+    qdict = {
                 'Car':{
                     'ax':{'data': None, 'msg': 'Car.ax', 'type': 'm/s'},
                     'ay':{'data': None, 'msg': 'Car.ay', 'type': 'm/s'},
@@ -14,6 +15,11 @@ init_qdict = {
                     'YawAcc':{'data': None, 'msg': 'Car.YawAcc', 'type': 'rad/s^2'},
                     'YawRate':{'data': None, 'msg': 'Car.YawRate', 'type': 'rad/s'},
                     'YawVel':{'data': None, 'msg': 'Car.YawVel', 'type': 'rad/s'},
+                    'Road':{
+                        'Lane':{
+
+                        }
+                    }
                 },
                 'Driver':{
                     'Lat':{
@@ -51,6 +57,7 @@ init_qdict = {
                         'nSensors':{'data': None, 'msg': 'Sensor.Object.nSensors', 'type': 'float'},
                         'RadarL':{
                             'DrvLaneCurv': {'data': None, 'msg': 'Sensor.Object.RadarL.DrvLaneCurv', 'type': 'float'},
+                            'Obj':{},
                             'relvTgt':{
                                 'dtct':{'data': None, 'msg': 'Sensor.Object.RadarL.relvTgt.dtct', 'type': 'float'},
                                 'NearPnt':{
@@ -95,6 +102,7 @@ init_qdict = {
                         },
                         'RadarR':{
                             'DrvLaneCurv': {'data': None, 'msg': 'Sensor.Object.RadarR.DrvLaneCurv', 'type': 'float'},
+                            'Obj':{},
                             'relvTgt':{
                                 'dtct':{'data': None, 'msg': 'Sensor.Object.RadarR.relvTgt.dtct', 'type': 'float'},
                                 'NearPnt':{
@@ -167,56 +175,100 @@ init_qdict = {
                     'Length':{'data': None, 'msg': 'UDP.Length', 'type': 'float'},
                     'VC_SwitchOn':{'data': None, 'msg': 'UDP.VC_SwitchOn', 'type': 'float'},
                     'WheelAng':{'data': None, 'msg': 'UDP.WheelAng', 'type': 'rad'},
-                }
-                }
+                }}
 
-for i in range(30):
-    init_qdict['LineDetect']['pL'][str(i)] = {
-        'x':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.x', 'type': 'int'},
-        'y':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.y', 'type': 'int'},
-        'z':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.z', 'type': 'int'}
-    }
-    init_qdict['LineDetect']['pR'][str(i)] = {
-        'x':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.x', 'type': 'int'},
-        'y':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.y', 'type': 'int'},
-        'z':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.z', 'type': 'int'}
-    }
+    for i in range(30):
+        qdict['LineDetect']['pL'][str(i)] = {
+            'x':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.x', 'type': 'int'},
+            'y':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.y', 'type': 'int'},
+            'z':{'data': None, 'msg': 'LineDetect.pL.' + str(i) + '.z', 'type': 'int'}
+        }
+        qdict['LineDetect']['pR'][str(i)] = {
+            'x':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.x', 'type': 'int'},
+            'y':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.y', 'type': 'int'},
+            'z':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.z', 'type': 'int'}
+        }
 
-for i in range(50):
-    init_qdict['Sensor']['Camera']['CA00']['Obj'][str(i)] = {
-        'Confidence':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Confidence', 'type': 'float'},
-        'Facing':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Facing', 'type': 'float'},
-        'LightState':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.LightState', 'type': 'float'},
-        'MBR':{
-            'BL_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_X', 'type': 'float'},
-            'BL_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Y', 'type': 'float'},
-            'BL_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Z', 'type': 'float'},
-            'TR_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_X', 'type': 'float'},
-            'TR_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Y', 'type': 'float'},
-            'TR_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Z', 'type': 'float'}
+    for i in range(50):
+        qdict['Sensor']['Camera']['CA00']['Obj'][str(i)] = {
+            'Confidence':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Confidence', 'type': 'float'},
+            'Facing':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Facing', 'type': 'float'},
+            'LightState':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.LightState', 'type': 'float'},
+            'MBR':{
+                'BL_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_X', 'type': 'float'},
+                'BL_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Y', 'type': 'float'},
+                'BL_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Z', 'type': 'float'},
+                'TR_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_X', 'type': 'float'},
+                'TR_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Y', 'type': 'float'},
+                'TR_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Z', 'type': 'float'}
+            },
+            'nVisPixels':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.nVisPixels', 'type': 'float'},
+            'ObjID':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.ObjID', 'type': 'float'},
+            'SignMain':{
+                'Val0':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val0', 'type': 'float'},
+                'Val1':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val1', 'type': 'float'}
+            },
+            'Type':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Type', 'type': 'float'}
+        }
+
+    for i in range(1, 11):
+        qdict['Sensor']['Line']['Front']['LLines'][str(i)] = {
+            'ColorCode':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.ColorCode', 'type': 'float'},
+            'Height':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Height', 'type': 'float'},
+            'Id':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Id', 'type': 'float'},
+            'Type':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Type', 'type': 'float'},
+            'Width':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Width', 'type': 'float'},
+        }
+        qdict['Sensor']['Line']['Front']['RLines'][str(i)] = {
+            'ColorCode':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.ColorCode', 'type': 'float'},
+            'Height':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Height', 'type': 'float'},
+            'Id':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Id', 'type': 'float'},
+            'Type':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Type', 'type': 'float'},
+            'Width':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Width', 'type': 'float'},
+        }
+
+    return qdict
+
+def init_obj_dict(nobj):
+    obj_dict = {
+        'dtct':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.dtct', 'type': 'float'},
+        'InLane':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.InLane', 'type': 'float'},
+        'NearPnt':{
+            'alpha': {'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.alpha', 'type': 'float'},
+            'ds':{
+                'x':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.ds.x', 'type': 'float'},
+                'y':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.ds.y', 'type': 'float'},
+                'z':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.ds.y', 'type': 'float'}
+            },
+            'ds_p':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.ds_p', 'type': 'float'},
+            'dv':{
+                'x':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.dv.x', 'type': 'float'},
+                'y':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.dv.y', 'type': 'float'},
+                'z':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.dv.y', 'type': 'float'}
+            },
+            'dv_p':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.NearPnt.dv_p', 'type': 'float'}
         },
-        'nVisPixels':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.nVisPixels', 'type': 'float'},
-        'ObjID':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.ObjID', 'type': 'float'},
-        'SignMain':{
-            'Val0':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val0', 'type': 'float'},
-            'Val1':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val1', 'type': 'float'}
-        },
-        'Type':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Type', 'type': 'float'}
+        'obsv': {'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.obsv', 'type': 'float'},
+        'RefPnt':{
+            'alpha': {'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.alpha', 'type': 'float'},
+            'ds':{
+                'x':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.ds.x', 'type': 'float'},
+                'y':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.ds.y', 'type': 'float'},
+                'z':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.ds.y', 'type': 'float'}
+            },
+            'ds_p':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.ds_p', 'type': 'float'},
+            'dv':{
+                'x':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.dv.x', 'type': 'float'},
+                'y':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.dv.y', 'type': 'float'},
+                'z':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.dv.y', 'type': 'float'}
+            },
+            'dv_p':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.dv_p', 'type': 'float'},
+            'r_zyx':{
+                'x':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.r_zyx.x', 'type': 'float'},
+                'y':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.r_zyx.y', 'type': 'float'},
+                'z':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.r_zyx.y', 'type': 'float'}
+            },
+            'theta':{'data': None, 'msg': 'Sensor.Object.RadarL.Obj.T' + str(nobj).zfill(2) + '.RefPnt.theta', 'type': 'float'}
+        }
     }
-
-for i in range(1, 11):
-    init_qdict['Sensor']['Line']['Front']['LLines'][str(i)] = {
-        'ColorCode':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.ColorCode', 'type': 'float'},
-        'Height':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Height', 'type': 'float'},
-        'Id':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Id', 'type': 'float'},
-        'Type':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Type', 'type': 'float'},
-        'Width':{'data': None, 'msg': 'Sensor.Line.Front.LLines.' + str(i) + '.Width', 'type': 'float'},
-    }
-    init_qdict['Sensor']['Line']['Front']['RLines'][str(i)] = {
-        'ColorCode':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.ColorCode', 'type': 'float'},
-        'Height':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Height', 'type': 'float'},
-        'Id':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Id', 'type': 'float'},
-        'Type':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Type', 'type': 'float'},
-        'Width':{'data': None, 'msg': 'Sensor.Line.Front.RLines.' + str(i) + '.Width', 'type': 'float'},
-    }
-
+    return obj_dict

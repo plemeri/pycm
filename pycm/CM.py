@@ -2,21 +2,33 @@ import socket
 import logging
 from .Quantities import Quantities as Qty
 import numpy as np
+import time
+import sys
 
 class CM():
-    def __init__(self, ip, port, key="", log_level=logging.WARN):
+    def __init__(self, ip, port, key="", max_trial=1000000, log_level=logging.WARN):
         self.logger = logging.getLogger("pycm")
         self.logger.setLevel(log_level)
 
         self.ip = ip
         self.port = port
+        self.max_trial = max_trial
+        self.trial = 0
 
         self.socket = None
         self.quantity = Qty(key)
         self.connect()
-        self.init_subscribe()
+        self.is_connected = self.init_subscribe()
 
-        print("pycm init completed")
+        if self.is_connected is True:
+            print("pycm init completed")
+        else:
+            print("pycm init failed")
+        
+    def count_trial(self):
+        self.trial += 1
+        c = ['/', '-', '\\'][self.trial % 3]
+        return c
 
     def connect(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,37 +37,65 @@ class CM():
         print("TCP socket connected")
 
     def init_subscribe(self):
+        subscribable = True
+
         msg = ""
         for msg_ in self.quantity.msg_list:
             msg += msg_ + " "
         smsg = "QuantSubscribe {" + msg[:-1] + "}\r"
+
         if (self.socket == None):
             self.logger.error("Not connected")
             return
 
         self.socket.send(smsg.encode())
         rsp = self.socket.recv(200)
-        rsp = rsp.decode().split("\r\n\r\n")
-        print("Subscribe for quantites: " + str(rsp))
-        # TODO Handle error
+        rsp = rsp.decode().split("\r\n\r\n")[0]
+        
+        c = self.count_trial()
+
+        if self.trial > self.max_trial:
+            sys.exit(1)
+
+        if rsp != "O0":
+            subscribable = False
+            print("Registering subscription for quantites", c, '\r', end='')
+        else:
+            print("Registerd to subscription for quantities")
+        return subscribable
 
     def read(self):
-        # By IPG recommendation, read one quantity at a time.
+        readable = True
+
+        if self.is_connected is False:
+            self.init_subscribe()
+            readable = False
+            return readable
+
         for msg in self.quantity.msg_list:
-            self.socket.send(self.quantity.format_msg(msg).encode())
-            str_rx = self.socket.recv(1000).decode()
+            try:
+                self.socket.send(self.quantity.format_msg(msg).encode())
+                str_rx = self.socket.recv(1000).decode()
+            except:
+                readable = False
+                self.init_subscribe = False
+                break
             rx_list = str_rx.split("\r\n\r\n")
 
             if (len(rx_list) != 2):
                 self.logger.error("Wrong read")
+                readable = False
                 return
             else:
                 rx = rx_list[0]
             
             if rx[0] == 'O':
                 self.quantity.get(msg).data = float(rx[1:])
-            elif rx[0] == 'E':
+            else:
                 self.logger.info(rx[1:])
+            
+        return readable
+                
                 
 
     def DVA_write(self, quantity, value, duration=-1, mode="Abs"):
