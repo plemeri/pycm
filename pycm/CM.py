@@ -85,7 +85,8 @@ class CM():
             if (len(rx_list) != 2):
                 self.logger.error("Wrong read")
                 readable = False
-                return
+                self.is_connected = False
+                break
             else:
                 rx = rx_list[0]
             
