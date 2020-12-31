@@ -42,6 +42,18 @@ def init_qdict():
                         'CA00':{
                             'nObj':{'data': None, 'msg': 'Sensor.Camera.CA00.nObj', 'type': 'int'},
                             'Obj':{}
+                        },
+                        'CA01':{
+                            'nObj':{'data': None, 'msg': 'Sensor.Camera.CA01.nObj', 'type': 'int'},
+                            'Obj':{}
+                        },
+                        'CA02':{
+                            'nObj':{'data': None, 'msg': 'Sensor.Camera.CA02.nObj', 'type': 'int'},
+                            'Obj':{}
+                        },
+                        'CA03':{
+                            'nObj':{'data': None, 'msg': 'Sensor.Camera.CA03.nObj', 'type': 'int'},
+                            'Obj':{}
                         }
                     },
                     'Line':{
@@ -189,27 +201,28 @@ def init_qdict():
             'z':{'data': None, 'msg': 'LineDetect.pR.' + str(i) + '.z', 'type': 'int'}
         }
 
-    for i in range(50):
-        qdict['Sensor']['Camera']['CA00']['Obj'][str(i)] = {
-            'Confidence':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Confidence', 'type': 'float'},
-            'Facing':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Facing', 'type': 'float'},
-            'LightState':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.LightState', 'type': 'float'},
-            'MBR':{
-                'BL_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_X', 'type': 'float'},
-                'BL_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Y', 'type': 'float'},
-                'BL_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.BL_Z', 'type': 'float'},
-                'TR_X':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_X', 'type': 'float'},
-                'TR_Y':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Y', 'type': 'float'},
-                'TR_Z':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.MBR.TR_Z', 'type': 'float'}
-            },
-            'nVisPixels':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.nVisPixels', 'type': 'float'},
-            'ObjID':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.ObjID', 'type': 'float'},
-            'SignMain':{
-                'Val0':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val0', 'type': 'float'},
-                'Val1':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.SignMain.Val1', 'type': 'float'}
-            },
-            'Type':{'data': None, 'msg': 'Sensor.Camera.CA00.Obj.' + str(i) + '.Type', 'type': 'float'}
-        }
+    for cam in qdict['Sensor']['Camera'].keys():
+        for i in range(50):
+            qdict['Sensor']['Camera'][cam]['Obj'][str(i)] = {
+                'Confidence':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.Confidence', 'type': 'float'},
+                'Facing':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.Facing', 'type': 'float'},
+                'LightState':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.LightState', 'type': 'float'},
+                'MBR':{
+                    'BL_X':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.BL_X', 'type': 'float'},
+                    'BL_Y':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.BL_Y', 'type': 'float'},
+                    'BL_Z':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.BL_Z', 'type': 'float'},
+                    'TR_X':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.TR_X', 'type': 'float'},
+                    'TR_Y':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.TR_Y', 'type': 'float'},
+                    'TR_Z':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.MBR.TR_Z', 'type': 'float'}
+                },
+                'nVisPixels':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.nVisPixels', 'type': 'float'},
+                'ObjID':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.ObjID', 'type': 'float'},
+                'SignMain':{
+                    'Val0':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.SignMain.Val0', 'type': 'float'},
+                    'Val1':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.SignMain.Val1', 'type': 'float'}
+                },
+                'Type':{'data': None, 'msg': 'Sensor.Camera.' + cam + '.Obj.' + str(i) + '.Type', 'type': 'float'}
+            }
 
     for i in range(1, 11):
         qdict['Sensor']['Line']['Front']['LLines'][str(i)] = {

@@ -202,5 +202,6 @@ class VDS:
             img = datalist.reshape((imag_h, image_w))
         else:
             self.logger.error("rgb and gray are supported for now")
+            img = None
 
         return img
