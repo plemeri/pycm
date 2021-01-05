@@ -187,6 +187,11 @@ def init_qdict():
                     'Length':{'data': None, 'msg': 'UDP.Length', 'type': 'float'},
                     'VC_SwitchOn':{'data': None, 'msg': 'UDP.VC_SwitchOn', 'type': 'float'},
                     'WheelAng':{'data': None, 'msg': 'UDP.WheelAng', 'type': 'rad'},
+                },
+                'Vhcl':{
+                    'Yaw':{'data': None, 'msg': 'Vhcl.Yaw', 'type': 'float'},
+                    'Roll':{'data': None, 'msg': 'Vhcl.Roll', 'type': 'float'},
+                    'Pitch':{'data': None, 'msg': 'Vhcl.Pitch', 'type': 'float'},
                 }}
 
     for i in range(30):

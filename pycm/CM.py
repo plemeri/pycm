@@ -59,7 +59,7 @@ class CM():
 
         if rsp != "O0":
             subscribable = False
-            print("Registering subscription for quantites", c, '\r', end='')
+            # print("Registering subscription for quantites", c, '\r', end='')
         else:
             print("Registerd to subscription for quantities")
         return subscribable
